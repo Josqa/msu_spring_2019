@@ -7,9 +7,9 @@ using namespace std;
 bool is_prime(int x)
 {
 	if (x == 1) return false;
-	for (int i = 2;i*i<=x;i++)
+	for (int i = 2; i * i <= x; i++)
 	{
-		if (x%i == 0) return false;
+		if (x % i == 0) return false;
 	}
 	return true;
 }
@@ -17,24 +17,22 @@ bool is_prime(int x)
 void solve(int l, int r)
 {
      int cnt = 0;
-     for (int i = 0;Data[i]<=r;i++)
+     for (int i = 0; Data[i] <= r; i++)
      {
          if(Data[i] >= l)
              if (is_prime(Data[i]) == true) cnt++;             
      }
-     cout<<cnt<<endl;
+     cout << cnt << endl;
 }
 
 int main(int argc, char* argv[])
 {
-    vector<int> test;
-    for (int i = 1; i < argc; ++i)
+    if (argc - 1 == 0 || (argc - 1) % 2 == 1) return -1;
+    for (int i = 1; i < argc; i += 2)
     {
-        int v = atoi(argv[i]);
-        test.push_back(v);
+        int v1 = atoi(argv[i]);
+        int v2 = atoi(argv[i + 1]);
+        solve(v1, v2);
     }
-    if (test.size() == 0 || test.size()%2 == 1) return -1;
-    for (size_t i = 0; i<test.size();i+=2)
-        solve(test[i], test[i+1]);
     return 0;
 }
