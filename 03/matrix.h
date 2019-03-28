@@ -4,11 +4,9 @@ class Matrix
 public:
 	int *matr;
 	size_t rows, cols;
-	Matrix(const size_t rows, const size_t cols)
+	Matrix(const size_t rows, const size_t cols) : rows(rows), cols(cols)
 	{ 
 		matr = new int[SIZE]; 
-		this->rows = rows;
-		this->cols = cols;
 	}
 	~Matrix() { delete[] matr; }
 	size_t getRows() { return rows; }
@@ -18,16 +16,6 @@ public:
 	{
 		for (size_t i = 0; i < SIZE; i++) matr[i] *= x;
 		return *this;
-	}
-
-	void show()
-	{
-		for (size_t i = 0; i < rows; i++)
-		{
-			for (size_t j = 0; j < cols; j++)
-				std::cout << matr[i * cols + j] << " ";
-			std::cout << std::endl;
-		}
 	}
 
 	bool operator==(const Matrix& other) const
