@@ -13,6 +13,7 @@ public:
 	~Matrix() { delete[] matr; }
 	size_t getRows() { return rows; }
 	size_t getColumns() { return cols; }
+	
 	Matrix& operator*= (int x)
 	{
 		for (size_t i = 0; i < SIZE; i++) matr[i] *= x;
