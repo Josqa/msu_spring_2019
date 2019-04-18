@@ -23,7 +23,7 @@ public:
         return object.serialize(*this);
     }
     template <class... ArgsT>
-    Error operator()(ArgsT&&... args)
+    Error operator()(ArgsT... args)
     {
         return process(forward<ArgsT>(args)...);
     }
@@ -31,7 +31,7 @@ public:
 private:
     ostream& out_;
     template <class T, class... ArgsT>
-    Error process(T x, ArgsT&&... args)
+    Error process(T x, ArgsT... args)
     {
         save(x);
         out_ << Separator;
@@ -92,11 +92,14 @@ private:
         {
             x = true;
             return true;
-        }else if(buf == "false")
+        }
+        else if(buf == "false")
         {
             x = false;
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
     }
