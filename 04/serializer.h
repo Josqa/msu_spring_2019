@@ -23,7 +23,7 @@ public:
         return object.serialize(*this);
     }
     template <class... ArgsT>
-    Error operator()(ArgsT... args)
+    Error operator()(ArgsT&&... args)
     {
         return process(forward<ArgsT>(args)...);
     }
@@ -31,23 +31,23 @@ public:
 private:
     ostream& out_;
     template <class T, class... ArgsT>
-    Error process(T x, ArgsT... args)
+    Error process(T&& x, ArgsT&&... args)
     {
         save(x);
         out_ << Separator;
         return process(forward<ArgsT>(args)...);
     }
     template <class T>
-    Error process(T x)
+    Error process(const T x)
     {
         save(x);
         return Error::NoError;
     }
-    void save(bool x)
+    void save(const bool x)
     {
         out_ << (x ? "true" : "false");
     }
-    void save(uint64_t x)
+    void save(const uint64_t x)
     {
         out_ << x;
     }
@@ -71,7 +71,7 @@ public:
 private:
     istream& in_;
     template <class T, class... ArgsT>
-    Error process(T &x, ArgsT&&... args)
+    Error process(T&& x, ArgsT&&... args)
     {
         if(!load(x))
             return Error::CorruptedArchive;
@@ -107,11 +107,12 @@ private:
     {
         string buf;
         in_ >> buf;
-        try
+        if(buf[0] == '-') return false;
+            
+        try 
         {
-            if(buf[0] == '-') return false;
             x = stoull(buf);
-        }catch(exception &e)
+        }catch(const invalid_argument & error)
         {
             return false;
         }
