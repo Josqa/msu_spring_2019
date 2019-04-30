@@ -38,16 +38,16 @@ private:
         return process(forward<ArgsT>(args)...);
     }
     template <class T>
-    Error process(const T x)
+    Error process(T&& x)
     {
         save(x);
         return Error::NoError;
     }
-    void save(const bool x)
+    void save(bool x)
     {
         out_ << (x ? "true" : "false");
     }
-    void save(const uint64_t x)
+    void save(uint64_t x)
     {
         out_ << x;
     }
@@ -73,14 +73,14 @@ private:
     template <class T, class... ArgsT>
     Error process(T&& x, ArgsT&&... args)
     {
-        if(!load(x))
+        if(!load(forward<T>(x)))
             return Error::CorruptedArchive;
         return process(forward<ArgsT>(args)...);
     }
     template <class T>
-    Error process(T &x)
+    Error process(T &&x)
     {
-        if(!load(x))
+        if(!load(forward<T>(x)))
             return Error::CorruptedArchive;
         return Error::NoError;
     }
