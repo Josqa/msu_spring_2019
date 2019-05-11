@@ -34,20 +34,17 @@ void conc(const string &f_1, const string &f_2, const string &conc)
 			f1.read(reinterpret_cast<char*>(&x), sizeof(x));
         }
     }
-    ifstream* final = &f1;
+    ifstream* fin = &f1;
     if(f1.eof())
 	{
-        final = &f2;
+        fin = &f2;
         swap(x, y);
     }
-    while(!(*final).eof())
+    while(!(*fin).eof())
 	{
         res.write(reinterpret_cast<char*>(&x), sizeof(x));
-        (*final).read(reinterpret_cast<char*>(&x), sizeof(x));
+        (*fin).read(reinterpret_cast<char*>(&x), sizeof(x));
     }
-    f1.close();
-    f2.close();
-    res.close();
 } 
 
 vector<uint64_t> read_numbers(ifstream &file, int amount)
@@ -115,7 +112,9 @@ bool f_check(const string &fileName)
 
 int main(int argc, char **argv)
 {
-    char* filename = argv[1];
+    char* filename;
+    if (argc == 2) filename = argv[1];
+    else return -1;
 
     ifstream file(filename, ios::binary);
     mutex mtx;
