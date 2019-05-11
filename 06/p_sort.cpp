@@ -11,6 +11,8 @@
 
 using namespace std;
 
+const int max_numbers = 200000;
+
 void conc(const string &f_1, const string &f_2, const string &conc)
 {
 	uint64_t x, y;
@@ -72,7 +74,7 @@ void p_sort(ifstream &file, mutex &mtx)
 	{
         	unique_lock<std::mutex> lock(mtx);
         
-        	vector<uint64_t> arr = read_numbers(file, 200000);
+        	vector<uint64_t> arr = read_numbers(file, max_numbers);
         	if(arr.empty()) break;
         	lock.unlock();
         	sort(arr.begin(), arr.end());
